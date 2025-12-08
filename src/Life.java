@@ -16,7 +16,7 @@ public class Life extends JFrame implements ActionListener {
 
     public Life() {
         super("Conway's Game of Life");
-
+        
         // build the buttons
         JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         runButton = new JButton("Run");

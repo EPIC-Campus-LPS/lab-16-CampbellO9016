@@ -1,5 +1,4 @@
 
-
 /**
  * This class represents a single cell
  * it has 4 states - alive now, dead now
