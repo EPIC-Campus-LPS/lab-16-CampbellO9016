@@ -131,21 +131,29 @@ public class LifeModel implements ActionListener
     {
     	for(int i = 0; i < myGrid.length; i ++) {
     		for(int j = 0; j < myGrid[i].length; j ++) {
+    			System.out.println("hi");
+    			
     			int nln = numLiveNeighbors(i,j);
+    			System.out.println(nln);
     			if(!(myGrid[i][j].isAliveNow()) && nln == 3) {
+    				System.out.println("1");
     				myGrid[i][j].setAliveNext(true);
     			}
     			else if((myGrid[i][j].isAliveNow()) && nln <=1){
+    				System.out.println("2");
     				myGrid[i][j].setAliveNext(false);
     			}
     			else if((myGrid[i][j].isAliveNow()) && nln >=4){
+    				System.out.println("3");
     				myGrid[i][j].setAliveNext(false);
     			}
-    			else if((myGrid[i][j].isAliveNow())){
+    			else if((myGrid[i][j].isAliveNow()) && (nln == 2 || nln == 3)){
+    				System.out.println("4");
     				myGrid[i][j].setAliveNext(true);
     			}
     		}
     	}
+    	System.out.println("hello");
     	updateNextGen();
     } 
     
@@ -181,17 +189,23 @@ public class LifeModel implements ActionListener
     {
     	boolean torf = inBounds(row, col);
     	int count = 0;
+    	System.out.println(torf);
     	if(torf) {
     		for(int i = -1; i <1 ; i ++) {
     			for(int j = -1; j < 1; j++) {
     				if(i == 0 && j == 0){
     					continue;
     				}
-	    			if(inBounds(row + i, col + j) && myGrid[row+i][col+j].isAliveNext()) {
+    				System.out.println(inBounds(row + i, col + j)+"bounds");
+    				//System.out.println(myGrid[row+i][col+j].isAliveNow()+"alive");
+	    			if(inBounds(row + i, col + j) && myGrid[row+i][col+j].isAliveNow()) {
+	    				System.out.println(count + "189i");
 	    				count ++;
 	    			}
+	    			System.out.println(count);
     			}
     		}
+    		System.out.println(count);
     	}
     	
        return count;
@@ -207,10 +221,11 @@ public class LifeModel implements ActionListener
      */
     private boolean inBounds(int row, int col)
     {
-    	if(row < myGrid.length && col < myGrid[row].length && row >0 && col > 0)
+    	if((row >= 0 && row < myGrid.length) && (col >= 0 && col < myGrid[row].length )) {
     		return true;
-    		
-    	return false;
+    	}
+    	else	
+    		return false;
     }
 }
 
