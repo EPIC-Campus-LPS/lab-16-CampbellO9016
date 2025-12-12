@@ -127,33 +127,21 @@ public class LifeModel implements ActionListener
      * 
      * This method calls NumLiveNeighbors(), updateNextGen()
      */
-    public void oneGeneration()
-    {
+    public void oneGeneration(){
     	for(int i = 0; i < myGrid.length; i ++) {
     		for(int j = 0; j < myGrid[i].length; j ++) {
-    			System.out.println("hi");
-    			
-    			int nln = numLiveNeighbors(i,j);
-    			System.out.println(nln);
-    			if(!(myGrid[i][j].isAliveNow()) && nln == 3) {
-    				System.out.println("1");
+
+				if(numLiveNeighbors(i, j) == 3 || (numLiveNeighbors(i, j) == 2 &&(myGrid[i][j].isAliveNow()))){
     				myGrid[i][j].setAliveNext(true);
     			}
-    			else if((myGrid[i][j].isAliveNow()) && nln <=1){
-    				System.out.println("2");
-    				myGrid[i][j].setAliveNext(false);
-    			}
-    			else if((myGrid[i][j].isAliveNow()) && nln >=4){
-    				System.out.println("3");
-    				myGrid[i][j].setAliveNext(false);
-    			}
-    			else if((myGrid[i][j].isAliveNow()) && (nln == 2 || nln == 3)){
-    				System.out.println("4");
+				else if(!(myGrid[i][j].isAliveNow()) && (numLiveNeighbors(i, j) == 3)) {
     				myGrid[i][j].setAliveNext(true);
+    			}
+    			else {
+    				myGrid[i][j].setAliveNext(false);
     			}
     		}
     	}
-    	System.out.println("hello");
     	updateNextGen();
     } 
     
@@ -169,8 +157,9 @@ public class LifeModel implements ActionListener
     			if(c.isAliveNext()) {
     				c.setAliveNow(true);
     			}
-    			else
+    			else{
     				c.setAliveNow(false);
+    			}
     		}
     	}
     }
@@ -188,27 +177,21 @@ public class LifeModel implements ActionListener
     private int numLiveNeighbors (int row, int col)
     {
     	boolean torf = inBounds(row, col);
-    	int count = 0;
-    	System.out.println(torf);
-    	if(torf) {
-    		for(int i = -1; i <1 ; i ++) {
-    			for(int j = -1; j < 1; j++) {
-    				if(i == 0 && j == 0){
-    					continue;
-    				}
-    				System.out.println(inBounds(row + i, col + j)+"bounds");
-    				//System.out.println(myGrid[row+i][col+j].isAliveNow()+"alive");
-	    			if(inBounds(row + i, col + j) && myGrid[row+i][col+j].isAliveNow()) {
-	    				System.out.println(count + "189i");
-	    				count ++;
-	    			}
-	    			System.out.println(count);
+    	int c = 0;
+		for(int i = -1; i <=1 ; i ++) {
+			for(int j = -1; j <= 1; j++) {
+				if(i == 0 && j == 0){
+					continue;
+				}
+				else if(inBounds(row + i, col + j) && myGrid[row+i][col+j].isAliveNow()) {
+    				c ++;
     			}
-    		}
-    		System.out.println(count);
-    	}
+    			
+			}
+		}
     	
-       return count;
+    	
+       return c;
     }
     
     /**
